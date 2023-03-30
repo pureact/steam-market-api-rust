@@ -1,7 +1,7 @@
-mod sm_api;
 use anyhow::Result;
 use colored::Colorize;
 use serde::Deserialize;
+use sm_api;
 use std::env;
 use std::fs;
 use tokio;
@@ -26,7 +26,11 @@ async fn load_items() -> Result<SmConfig> {
 async fn main() -> Result<()> {
     println!("\n{}\n", "Skin Tracker (Rust Edition)".red().on_blue());
     let args: Vec<String> = env::args().collect();
-    let currency_ratio: f64 = args[1].parse()?;
+    let currency_ratio: f64 = match args.len() {
+        1 => 1.00,
+        2 => args[1].parse()?,
+        _ => panic!("Either use no arguments to keep the default currency or one argument to denote the ratio to the currency you want to use.")
+    };
     let cs_items = load_items().await?.items;
     for item in cs_items {
         let item_class = sm_api::SteamMarketItem::new(item.game_id, &item.name).await?;

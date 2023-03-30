@@ -41,9 +41,9 @@ impl ToUtcDateTime for DateTime<Utc> {
     }
 }
 
-pub(crate) struct SteamMarketItemPrice {
-    date: DateTime<Utc>,
-    price: f64,
+pub struct SteamMarketItemPrice {
+    pub date: DateTime<Utc>,
+    pub price: f64,
 }
 impl SteamMarketItemPrice {
     fn new(date: impl ToUtcDateTime, price: f64) -> Result<Self> {
@@ -51,10 +51,10 @@ impl SteamMarketItemPrice {
         Ok(Self { date, price })
     }
 }
-pub(crate) struct SteamMarketItem {
-    game_id: u16,
-    name: String,
-    market_prices: Vec<SteamMarketItemPrice>,
+pub struct SteamMarketItem {
+    pub game_id: u16,
+    pub name: String,
+    pub market_prices: Vec<SteamMarketItemPrice>,
 }
 
 impl SteamMarketItem {
