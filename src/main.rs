@@ -30,7 +30,7 @@ async fn main() -> Result<()> {
     let cs_items = load_items().await?.items;
     for item in cs_items {
         let item_class = sm_api::SteamMarketItem::new(item.game_id, &item.name).await?;
-        let current_price = item_class.get_latest_price().unwrap();
+        let current_price = item_class.get_current_price().unwrap();
         let profit = current_price - item.price;
         let indicator = if profit > 0.0 {
             "up".green()
